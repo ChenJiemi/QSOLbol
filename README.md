@@ -12,9 +12,13 @@ pip install .
 
 # import
 from QSOLbol.core import QSOLbol
+
 calculator= QSOLbol()
+
 results= calculator.calculate(wave, mags, mags_err, z,scale=True)
+
 logLbol=results[0]
+
 logLbol_err=results[1]
 
 
