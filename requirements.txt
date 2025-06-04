@@ -1,0 +1,6 @@
+numpy>=1.21
+scipy>=1.7
+astropy>=5.0
+scikit-learn>=1.0
+pyyaml>=6.0
+pytest>=7.0  # 开发依赖

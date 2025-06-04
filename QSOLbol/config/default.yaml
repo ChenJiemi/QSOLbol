@@ -1,0 +1,9 @@
+paths:
+  som_model: "data/som_model.pkl"
+  lbol_data: "data/lbol_data.npz"
+  lbol_err_sim: "data/lbol_err_sim.npz"
+  knn_neighbors: 100
+
+constants:
+  vmin: 4.0e13  # Hz (4 micron)
+  vmax: 2.4e18  # Hz (10 keV)
