@@ -1,5 +1,7 @@
 Project: QSOLbol
+
 Author:JieChen
+
 Email: jiechen@stu.pku.edu.cn
 
 # QSOLbol
