@@ -114,7 +114,7 @@ class QSOLbol:
         -------
             All sources' log10(Lbol) and uncertainty; returns None if SNR <= 3.
         """
-        nu = (ac.c / (wave * au.Angstrom)).to(au.Hz).value  
+        nu = 2.99e18/wave #(ac.c / (wave * au.Angstrom)).to(au.Hz).value  
         flux = 10**(-0.4 * mags) * 3631
         flux_err = np.abs(np.log(10)*flux*mags_err*0.4)
 
