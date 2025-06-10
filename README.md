@@ -1,6 +1,6 @@
 Project: QSOLbol
 
-Author:JieChen
+Author: JieChen
 
 Email: jiechen@stu.pku.edu.cn
 
