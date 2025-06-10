@@ -24,7 +24,9 @@ pip install .
 | `z`              | (n_sample,1)    | Redshift.                                                                      |
 | `f_isotropy`     | bool             | Whether to use 0.75 correction for viewing angle. The default is `False`.     |
 | `wave_range`     | tuple            | The integrated range of bolometric luminosity in Hz. The default is from 4 µm to 2 keV. |
-| scale            | bool             | Whether to scale the SED when the source is at faint and bright luminosity ends. |
+| scale            | bool             | Whether to scale the SED when the source is at faint and bright luminosity ends. The default is `False`.|
+
+
 
 # import
 from QSOLbol.core import QSOLbol
