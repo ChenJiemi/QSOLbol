@@ -15,6 +15,17 @@ Currently the data file content is too large (QSOLbol/config/data), temporarily 
 cd ./QSOLbol
 pip install .
 
+# Parameters
+| **Parameters**   | **Type**         | **Description**                                                                 |
+|------------------|------------------|---------------------------------------------------------------------------------|
+| `wave`           | (n_sample,n_SED)      | Observed-frame SED wavelength in Angstrom.                                      |
+| `mags`           | (n_sample,n_SED)     | Observed-frame SED in AB magnitude.                                            |
+| `mags_err`       | (n_sample,n_SED)      | Observed-frame SED error in AB magnitude.                                      |
+| `z`              | (n_sample,1)    | Redshift.                                                                      |
+| `f_isotropy`     | bool             | Whether to use 0.75 correction for viewing angle. The default is `False`.     |
+| `wave_range`     | tuple            | The integrated range of bolometric luminosity in Hz. The default is from 4 µm to 2 keV. |
+| scale            | bool             | Whether to scale the SED when the source is at faint and bright luminosity ends. |
+
 # import
 from QSOLbol.core import QSOLbol
 
