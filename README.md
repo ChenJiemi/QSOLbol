@@ -1,9 +1,3 @@
-Project: QSOLbol
-
-Author: JieChen
-
-Email: jiechen@stu.pku.edu.cn
-
 # QSOLbol
 
 QSOLbol is a Python tool to estimate the bolometric luminosity of quasars from multi-wavelength data (rest-frame SEDs) with SOM.
@@ -38,3 +32,7 @@ logLbol=results[0]
 logLbol_err=results[1]
 
 
+
+Author: JieChen
+
+Email: jiechen@stu.pku.edu.cn
