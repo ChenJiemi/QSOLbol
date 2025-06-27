@@ -33,6 +33,11 @@ logLbol_err=results[1]
 
 # Citation
 
+Author: Jie Chen
+
+Email: jiechen@stu.pku.edu.cn
+
+
 @ARTICLE{2025arXiv250604329C,
        author = {{Chen}, Jie and {Jiang}, Linhua and {Sun}, Shengxiu and {Zhang}, Zijian and {Sun}, Mouyuan},
         title = "{Estimating Bolometric Luminosities of Type 1 Quasars with Self-Organizing Maps}",
@@ -52,6 +57,3 @@ archivePrefix = {arXiv},
 
 
 
-Author: JieChen
-
-Email: jiechen@stu.pku.edu.cn
