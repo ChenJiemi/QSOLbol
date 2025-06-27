@@ -31,6 +31,25 @@ logLbol=results[0]
 
 logLbol_err=results[1]
 
+# Citation
+
+@ARTICLE{2025arXiv250604329C,
+       author = {{Chen}, Jie and {Jiang}, Linhua and {Sun}, Shengxiu and {Zhang}, Zijian and {Sun}, Mouyuan},
+        title = "{Estimating Bolometric Luminosities of Type 1 Quasars with Self-Organizing Maps}",
+      journal = {arXiv e-prints},
+     keywords = {Cosmology and Nongalactic Astrophysics, Astrophysics of Galaxies, High Energy Astrophysical Phenomena},
+         year = 2025,
+        month = jun,
+          eid = {arXiv:2506.04329},
+        pages = {arXiv:2506.04329},
+          doi = {10.48550/arXiv.2506.04329},
+archivePrefix = {arXiv},
+       eprint = {2506.04329},
+ primaryClass = {astro-ph.CO},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2025arXiv250604329C},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
 
 
 Author: JieChen
