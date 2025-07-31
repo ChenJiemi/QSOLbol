@@ -38,22 +38,23 @@ Author: Jie Chen
 Email: jiechen@stu.pku.edu.cn
 
 
-@ARTICLE{2025arXiv250604329C,
+@ARTICLE{2025ApJ...988..204C,
        author = {{Chen}, Jie and {Jiang}, Linhua and {Sun}, Shengxiu and {Zhang}, Zijian and {Sun}, Mouyuan},
-        title = "{Estimating Bolometric Luminosities of Type 1 Quasars with Self-Organizing Maps}",
-      journal = {arXiv e-prints},
-     keywords = {Cosmology and Nongalactic Astrophysics, Astrophysics of Galaxies, High Energy Astrophysical Phenomena},
+        title = "{Estimating Bolometric Luminosities of Type 1 Quasars with Self-organizing Maps}",
+      journal = {\apj},
+     keywords = {Quasars, Surveys, Neural networks, Spectral energy distribution, 1319, 1671, 1933, 2129, Cosmology and Nongalactic Astrophysics, Astrophysics of Galaxies, High Energy Astrophysical Phenomena},
          year = 2025,
-        month = jun,
-          eid = {arXiv:2506.04329},
-        pages = {arXiv:2506.04329},
-          doi = {10.48550/arXiv.2506.04329},
+        month = aug,
+       volume = {988},
+       number = {2},
+          eid = {204},
+        pages = {204},
+          doi = {10.3847/1538-4357/ade307},
 archivePrefix = {arXiv},
        eprint = {2506.04329},
  primaryClass = {astro-ph.CO},
-       adsurl = {https://ui.adsabs.harvard.edu/abs/2025arXiv250604329C},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2025ApJ...988..204C},
       adsnote = {Provided by the SAO/NASA Astrophysics Data System}
-}
 
 
 
