@@ -32,12 +32,10 @@ logLbol=results[0]
 logLbol_err=results[1]
 
 # Citation
+Please cite the paper if you used the QSOLbol, [https://iopscience.iop.org/article/10.3847/1538-4357/ade307
+] as follows:
 
-Author: Jie Chen
-
-Email: jiechen@stu.pku.edu.cn
-
-
+```
 @ARTICLE{2025ApJ...988..204C,
        author = {{Chen}, Jie and {Jiang}, Linhua and {Sun}, Shengxiu and {Zhang}, Zijian and {Sun}, Mouyuan},
         title = "{Estimating Bolometric Luminosities of Type 1 Quasars with Self-organizing Maps}",
@@ -55,6 +53,5 @@ archivePrefix = {arXiv},
  primaryClass = {astro-ph.CO},
        adsurl = {https://ui.adsabs.harvard.edu/abs/2025ApJ...988..204C},
       adsnote = {Provided by the SAO/NASA Astrophysics Data System}
-
-
+```
 
