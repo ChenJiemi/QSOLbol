@@ -34,7 +34,7 @@ logLbol_err=results[1]
 ```
 
 # Citation
-Please cite the paper if you used the QSOLbol as follows ([https://iopscience.iop.org/article/10.3847/1538-4357/ade307
+Please cite the paper if you used the QSOLbol, as follows ([https://iopscience.iop.org/article/10.3847/1538-4357/ade307
 ]):
 
 ```
@@ -57,3 +57,4 @@ archivePrefix = {arXiv},
       adsnote = {Provided by the SAO/NASA Astrophysics Data System}
 ```
 
+Author: Jie Chen (jiechen@stu.pku.edu.cn)
