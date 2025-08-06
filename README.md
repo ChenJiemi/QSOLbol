@@ -57,4 +57,4 @@ archivePrefix = {arXiv},
       adsnote = {Provided by the SAO/NASA Astrophysics Data System}
 ```
 
-Author: Jie Chen (jiechen@stu.pku.edu.cn)
+Author: Jie Chen (jiechen(at)stu.pku.edu.cn)
