@@ -21,6 +21,7 @@ pip install .
 
 
 # import
+```
 from QSOLbol.core import QSOLbol
 
 calculator= QSOLbol()
@@ -30,10 +31,11 @@ results= calculator.calculate(wave, mags, mags_err, z,scale=True)
 logLbol=results[0]
 
 logLbol_err=results[1]
+```
 
 # Citation
-Please cite the paper if you used the QSOLbol, [https://iopscience.iop.org/article/10.3847/1538-4357/ade307
-] as follows:
+Please cite the paper if you used the QSOLbol as follows ([https://iopscience.iop.org/article/10.3847/1538-4357/ade307
+]):
 
 ```
 @ARTICLE{2025ApJ...988..204C,
