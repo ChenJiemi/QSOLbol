@@ -56,7 +56,7 @@ class QSOLbol:
             config = load_config(config_path)
             
             # Convert relative paths in config to absolute paths
-            for path_key in ["som_model", "lbol_data", "lbol_err_sim"]:
+            for path_key in ["som_model", "lbol_data", "lbol_err_sim", "template_host_galaxy"]:
                 if path_key in config.get("paths", {}):
                     rel_path = config["paths"][path_key]
                     abs_path = os.path.join(os.path.dirname(config_path), rel_path)
@@ -78,6 +78,7 @@ class QSOLbol:
             self.lbol_data = load_npz(self.config["paths"]["lbol_data"])
             self.lbol_err = load_npz(self.config["paths"]["lbol_err_sim"])
             self.imputer = KNNImputer(n_neighbors=self.config.get("knn_neighbors", 100))
+            self.template = np.loadtxt(self.config["paths"]["template_host_galaxy"])
             
             logger.info("Models loaded successfully")
             
@@ -245,6 +246,34 @@ class QSOLbol:
             xnew0 = np.arange(np.log10(wave_range[0]), np.log10(wave_range[1]), 0.02)
             data_train_p = [np.interp(xnew0, xnew2, data_train_p) for i in range(lenp)]
             logLbol_new = np.log10([np.trapz(np.log(10) * 10**data_train_p[i], xnew0) for i in range(lenp)])
+            
+            # host galaxy correction with L5100
+            template=self.template
+            lambda0=template[:,0]
+            template_Sb=template[:,4]
+            xnew20=(ac.c/(lambda0*au.um)).to(au.Hz).value
+
+            dL=(10*au.pc).to(au.cm)
+            # Find indices where lambda0 covers the range [lambda_set0, lambda_set1]
+            x_start = np.where(lambda0 <= lambda_set0)[0][-1] + 1
+            x_end = np.where(lambda0 >= lambda_set1)[0][0]
+            x = slice(x_start, x_end + 1)
+
+            L_ee=template_Sb[x]*xnew20[x]*4*np.pi*dL.value.reshape(-1,1)**2*1e-17
+            Lbol_sb=np.trapz(-np.log(10)*L_ee,np.log10(xnew20[x]))
+
+
+            x0=L5100-44
+            f_5100_Jalan = 42.01-20.53*x0 + 9.34*x0**2-3.88*x0**3
+            f_5100=f_5100_Jalan/100
+            f_5100[np.where(L5100>46.2203)]=0
+            f_5100[np.where(L5100==np.nan)]=0
+            gal_L_5100=10**L5100*f_5100
+            x_5100=np.where(xnew20>fre_5100)[0][0]
+            f_gal_5100=gal_L_5100/L_ee[:,x_5100]
+            gal_lbol=Lbol_sb*f_gal_5100
+            logLbol_new_c=np.log10(10**logLbol_new-gal_lbol)
+            logLbol_new=logLbol_new_c
 
             median_luminosities = np.array([np.median(logLbol_new[np.where(p == p_u[i])]) for i in range(SIZE)])
             median_luminosities_err = np.array([(np.percentile(logLbol_new[np.where(p == p_u[i])], 84) - np.percentile(logLbol_new[np.where(p == p_u[i])], 16)) / 2 for i in range(SIZE)])
