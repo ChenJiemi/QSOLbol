@@ -8,6 +8,7 @@ The SOM package is from [https://github.com/sevamoo/SOMPY]. Please install the S
 cd ./QSOLbol-main
 pip install .
 ```
+There is a problem to install. One way is to add QSOLbol flie into you Python site-packages, e.g., /Users/jiechen/anaconda3/envs/jwst/lib/python3.11/site-packages
 
 # Parameters
 | **Parameters**   | **Type**         | **Description**                                                                 |
