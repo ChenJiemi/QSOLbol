@@ -1,3 +1,4 @@
+from matplotlib.pylab import f
 import numpy as np
 import logging
 from sklearn.impute import KNNImputer
@@ -89,7 +90,7 @@ class QSOLbol:
             logger.error(f"Failed to load models: {e}")
             raise
 
-    def calculate(self, wave: np.ndarray, mags: np.ndarray, mags_err: np.ndarray, z: np.ndarray, f_isotropy: bool = False,scale:bool=False,max_iter=3, wave_range: list = [4.0e13, 2.4e18]):
+    def calculate(self, wave: np.ndarray, mags: np.ndarray, mags_err: np.ndarray, z: np.ndarray, f_isotropy: bool = False,scale:bool=False,max_iter=3, wave_range: list = [7.5e13, 2.4e18]):
         """
         Calculate luminosity (Lbol) for multiple sources.
 
@@ -108,7 +109,7 @@ class QSOLbol:
         scale : bool, optional
             Whether to rescale the flux (default: False).
         wave_range : list, optional
-            Integration frequency range (default: [4.0e13, 2.4e18]).
+            Integration frequency range (default: [7.5e13, 2.4e18]).
         max_iter: int, optional
             Maximum number of iterations for rescaling (default: 3).
         Returns
@@ -162,7 +163,7 @@ class QSOLbol:
 
         return results[0], results[1]#,results[2]
     
-    def calculate_bol(self, nu: np.ndarray, flux: np.ndarray, flux_err: np.ndarray, z: np.ndarray, f_isotropy: bool = False, wave_range: list = [4.0e13, 2.4e18]):
+    def calculate_bol(self, nu: np.ndarray, flux: np.ndarray, flux_err: np.ndarray, z: np.ndarray, f_isotropy: bool = False, wave_range: list = [7.5e13, 2.4e18]):
 
         SN = (flux / flux_err > 3)
         if not np.any(SN):
@@ -191,9 +192,12 @@ class QSOLbol:
         xnew2 = np.arange(np.log10((ac.c / (4 * au.um)).to(au.Hz).value), np.log10((10 * au.keV / ac.h).to(au.Hz).value), 0.02)
         xnew2_11 = np.append(xnew2[5:87:9], np.log10((2 * au.keV / ac.h).to(au.Hz).value))
         fre_2500 =np.log10((ac.c / (2500 * au.Angstrom)).to(au.Hz).value)
+        fre_5100 = np.log10((ac.c / (5100 * au.Angstrom)).to(au.Hz).value)
         fre_2kev=np.log10((2 * au.keV / ac.h).to(au.Hz).value)
         L2500 =[interpolate.interp1d(logv[i,SN[i]], logvLv[i,SN[i]], fill_value=np.nan, bounds_error=False)(fre_2500)  for i in range(len1)]
         L2500=np.array(L2500)
+        L5100= [interpolate.interp1d(logv[i,SN[i]], logvLv[i,SN[i]], fill_value=np.nan, bounds_error=False)(fre_5100) for i in range(len1)]
+        L5100=np.array(L5100)
 
         # Estimate luminosity at 0.2keV, 2keV and 10keV
         need_to_interp=np.array([max(logv[i,SN[i]])!= fre_2kev for i in range(len1)])
@@ -235,48 +239,61 @@ class QSOLbol:
         mask_feature = ~np.isnan(YPRE0)
 
         # Recalculate Lbol map if wave range changes
-        if wave_range != [4.0e13, 2.4e18]:
-
-            data_train_p = self.lbol_data["data_imputed"]
-            p = self.lbol_data["p"]
-            p_u = np.unique(p)
-            SIZE = len(p_u)
-            xnew2 = np.arange(np.log10(4.0e13), np.log10(2.4e18), 0.02)
-            lenp = data_train_p.shape[0]
+        if wave_range != [7.5e13, 2.4e18]:
             xnew0 = np.arange(np.log10(wave_range[0]), np.log10(wave_range[1]), 0.02)
-            data_train_p = [np.interp(xnew0, xnew2, data_train_p) for i in range(lenp)]
-            logLbol_new = np.log10([np.trapz(np.log(10) * 10**data_train_p[i], xnew0) for i in range(lenp)])
-            
-            # host galaxy correction with L5100
-            template=self.template
-            lambda0=template[:,0]
-            template_Sb=template[:,4]
-            xnew20=(ac.c/(lambda0*au.um)).to(au.Hz).value
+            lambda_set0 = (ac.c / (wave_range[0] * au.Hz)).to(au.micron).value
+            lambda_set1 = (ac.c / (wave_range[1] * au.Hz)).to(au.micron).value
+            # print(lambda_set0, lambda_set1)
+            if xnew0[0] < np.log10(7.5e13) or xnew0[-1] > np.log10(2.4e18):
+                logger.error("wave_range must be within [7.5e13, 2.4e18]")
+                raise ValueError("wave_range must be within [7.5e13, 2.4e18]")
+            else:           
+                data_train_p = self.lbol_data["data_imputed"]
+                p = self.lbol_data["p"]
+                p_u = np.unique(p)
+                SIZE = len(p_u)
+                xnew2 = np.arange(np.log10(7.5e13), np.log10(2.4e18), 0.02)
+                lenp = data_train_p.shape[0]
+                # print(data_train_p.shape,xnew2.shape,xnew0.shape)
+                data_train_p = [np.interp(xnew0, xnew2, data_train_p[i]) for i in range(lenp)]
+                logLbol_new = np.log10([np.trapz(np.log(10) * 10**data_train_p[i], xnew0) for i in range(lenp)])
+                
+                # host galaxy correction with L5100
+                template=self.template
+                lambda0=template[:,0]
+                template_Sb=template[:,4]
+                xnew20=(ac.c/(lambda0*au.um)).to(au.Hz).value
 
-            dL=(10*au.pc).to(au.cm)
-            # Find indices where lambda0 covers the range [lambda_set0, lambda_set1]
-            x_start = np.where(lambda0 <= lambda_set0)[0][-1] + 1
-            x_end = np.where(lambda0 >= lambda_set1)[0][0]
-            x = slice(x_start, x_end + 1)
+                dL=(10*au.pc).to(au.cm)
+                # Find indices where lambda0 covers the range [lambda_set0, lambda_set1]
+                x_end = np.where(lambda0 <= lambda_set0)[0][-1] + 1
+                x_start= np.where(lambda0 >= lambda_set1)[0][0]
+                x = slice(x_start, x_end + 1)
+                # print(x_start, x_end)
 
-            L_ee=template_Sb[x]*xnew20[x]*4*np.pi*dL.value.reshape(-1,1)**2*1e-17
-            Lbol_sb=np.trapz(-np.log(10)*L_ee,np.log10(xnew20[x]))
+                L_ee=template_Sb[x]*xnew20[x]*4*np.pi*dL.value.reshape(-1,1)**2*1e-17
+                Lbol_sb=np.trapz(-np.log(10)*L_ee,np.log10(xnew20[x]))
+                # print(L_ee.shape)
 
+                xx_5100=np.where(xnew2>fre_5100)[0][0]
+                # print(xnew2[xx_5100],fre_5100)
+                L5100=self.lbol_data["data_imputed"][:,xx_5100]
+                x0=L5100-44
+                f_5100_Jalan = 42.01-20.53*x0 + 9.34*x0**2-3.88*x0**3
+                f_5100=f_5100_Jalan/100
+                f_5100[np.where(L5100>46.2203)]=0
+                f_5100[np.where(L5100==np.nan)]=0
+                gal_L_5100=10**L5100*f_5100
+                x_5100=np.where(lambda0[x]>0.51)[0][-1]
+                # print(x_5100)
+                f_gal_5100=gal_L_5100/L_ee[:,x_5100]
+                # print(f_gal_5100.shape,Lbol_sb,L5100.shape)
+                gal_lbol=Lbol_sb*f_gal_5100
+                logLbol_new_c=np.log10(10**logLbol_new-gal_lbol)
+                logLbol_new=logLbol_new_c
 
-            x0=L5100-44
-            f_5100_Jalan = 42.01-20.53*x0 + 9.34*x0**2-3.88*x0**3
-            f_5100=f_5100_Jalan/100
-            f_5100[np.where(L5100>46.2203)]=0
-            f_5100[np.where(L5100==np.nan)]=0
-            gal_L_5100=10**L5100*f_5100
-            x_5100=np.where(xnew20>fre_5100)[0][0]
-            f_gal_5100=gal_L_5100/L_ee[:,x_5100]
-            gal_lbol=Lbol_sb*f_gal_5100
-            logLbol_new_c=np.log10(10**logLbol_new-gal_lbol)
-            logLbol_new=logLbol_new_c
-
-            median_luminosities = np.array([np.median(logLbol_new[np.where(p == p_u[i])]) for i in range(SIZE)])
-            median_luminosities_err = np.array([(np.percentile(logLbol_new[np.where(p == p_u[i])], 84) - np.percentile(logLbol_new[np.where(p == p_u[i])], 16)) / 2 for i in range(SIZE)])
+                median_luminosities = np.array([np.median(logLbol_new[np.where(p == p_u[i])]) for i in range(SIZE)])
+                median_luminosities_err = np.array([(np.percentile(logLbol_new[np.where(p == p_u[i])], 84) - np.percentile(logLbol_new[np.where(p == p_u[i])], 16)) / 2 for i in range(SIZE)])
         else:
             median_luminosities = self.lbol_data['median_luminosities']
             median_luminosities_err = self.lbol_data['median_luminosities_err']
