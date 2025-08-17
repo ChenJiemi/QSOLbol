@@ -1,11 +1,13 @@
 # QSOLbol
 
 QSOLbol is a Python tool to estimate the bolometric luminosity of quasars from multi-wavelength data (rest-frame SEDs) with SOM.
-
+The SOM package is from ([https://github.com/sevamoo/SOMPY]). Please install the SOMPY before you star QSOLbol.
 
 # install 
+```
 cd ./QSOLbol
 pip install .
+```
 
 # Parameters
 | **Parameters**   | **Type**         | **Description**                                                                 |
