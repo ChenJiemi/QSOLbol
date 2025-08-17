@@ -2,6 +2,7 @@ paths:
   som_model: "data/som_model.pkl"
   lbol_data: "data/lbol_data.npz"
   lbol_err_sim: "data/lbol_err_sim.npz"
+  template_host_galaxy: "data/apj332219t1_mrt.txt"
   knn_neighbors: 100
 
 constants:
