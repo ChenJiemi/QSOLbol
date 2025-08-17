@@ -5,7 +5,7 @@ The SOM package is from [https://github.com/sevamoo/SOMPY]. Please install the S
 
 # install 
 ```
-cd ./QSOLbol
+cd ./QSOLbol-main
 pip install .
 ```
 
