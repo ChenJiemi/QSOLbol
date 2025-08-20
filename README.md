@@ -29,10 +29,19 @@ from QSOLbol.core import QSOLbol
 
 calculator= QSOLbol()
 
+# 1000 QSO examples 
+data=np.load('test_data.npz')
+RA=data['ra']
+Dec=data['dec']
+wave=data['wave']
+mags=data['mags']
+mags_err=data['mags_err']
+z=data['z']
+logLbol_paper=data['logLbol']
+
+# measure Lbol
 results= calculator.calculate(wave, mags, mags_err, z,scale=True)
-
 logLbol=results[0]
-
 logLbol_err=results[1]
 ```
 
