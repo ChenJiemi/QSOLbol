@@ -37,7 +37,7 @@ wave=data['wave']
 mags=data['mags']
 mags_err=data['mags_err']
 z=data['z']
-logLbol_paper=data['logLbol']
+
 
 # measure Lbol
 results= calculator.calculate(wave, mags, mags_err, z,scale=True)
