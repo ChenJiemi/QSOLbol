@@ -6,5 +6,5 @@ paths:
   knn_neighbors: 100
 
 constants:
-  vmin: 4.0e13  # Hz (4 micron)
+  vmin: 7.5e13  # Hz (4 micron)
   vmax: 2.4e18  # Hz (10 keV)
