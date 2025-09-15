@@ -18,7 +18,7 @@ There is a problem to install. One way is to add QSOLbol flie into your Python s
 | `mags_err`       | (n_sample,n_SED)      | Observed-frame SED error in AB magnitude.                                      |
 | `z`              | (n_sample,1)    | Redshift.                                                                      |
 | `f_isotropy`     | bool             | Whether to use 0.75 correction for viewing angle. The default is `False`.     |
-| `wave_range`     | tuple            | The integrated range of bolometric luminosity in Hz. The default is from 4 µm to 2 keV. |
+| `wave_range`     | tuple            | The integrated range of bolometric luminosity in Hz. The default is from 4 µm to 10 keV. |
 | `scale`          | bool             | Whether to scale the SED when the source is at faint and bright luminosity ends. The default is `False`.|
 
 
